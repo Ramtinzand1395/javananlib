@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    default: "pendding",
+    default: "qualified",
     enum: ["qualified", "pendding"],
 },
   createdAt: {
