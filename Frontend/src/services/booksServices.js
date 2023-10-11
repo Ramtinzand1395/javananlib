@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const SERVER_URL = "library-three-sigma.vercel.app/api";
+const SERVER_URL = "https://library-three-sigma.vercel.app/api";
 
 // @desc  Update Book
 // @route PUT http://localhost:5000/api/update-book
