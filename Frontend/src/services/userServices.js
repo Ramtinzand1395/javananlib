@@ -19,7 +19,6 @@ export const createUser = (user) => {
 // @desc  Create New Uontact
 // @route POST http://localhost:5000/get-users
 export const getAllUsers = () => {
-  console.log(SERVER_URL)
   const url = `${SERVER_URL}/get-users`;
   return axios.get(url);
 };
