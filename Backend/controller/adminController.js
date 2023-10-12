@@ -219,8 +219,9 @@ exports.ChangeBookstatus = async (req, res) => {
       selectedbook.status = "notAvailable";
 
       selectedBookData.BorrowingDate = Date.now();
-      selectedBookData.returnDate = Date.now();
-
+      const returnDate = new Date(selectedBookData.BorrowingDate);
+      returnDate.setDate(returnDate.getDate() + 7);
+      
       await selectedbook.save();
       await selectedBookData.save();
       res.status(201).json({ message: " کتاب با موفقیت برای کاربر ذخیره شد. " });
