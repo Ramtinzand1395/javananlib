@@ -4,7 +4,9 @@ const adminController = require("../controller/adminController");
 
 const router = new Router();
 
+router.post("/create-author-pic", adminController.uploadImage);
 //create book pic
+router.post("/create-book-pic", adminController.uploadBookImage);
 //create Author details
 router.post("/create-author-details", adminController.createAuthor);
 //create Author details
