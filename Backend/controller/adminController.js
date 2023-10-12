@@ -4,13 +4,46 @@ const Book = require("../models/Books");
 
 const multer = require("multer");
 const shortId = require("shortid");
-//const sharp = require("sharp");
+const sharp = require("sharp");
 const { fileFilter } = require("../utils/multer");
 const fs = require("fs/promises");
 const appRoot = require("app-root-path");
 const path = require("path");
 const BooksData = require("../models/BooksData");
 
+exports.uploadImage = (req, res) => {
+  const upload = multer({
+    limits: { fileSize: 4000000 },
+    fileFilter: fileFilter,
+  }).single("autherImage");
+
+  upload(req, res, async (err) => {
+    if (err) {
+      if (err.code === "LIMIT_FILE_SIZE") {
+        return res
+          .status(400)
+          .send("حجم عکس ارسالی نباید بیشتر از 4 مگابایت باشد");
+      }
+      res.status(400).send(err);
+    } else {
+      if (req.file) {
+        const fileName = `${shortId.generate()}_${req.file.originalname}`;
+        await sharp(req.file.buffer)
+          .jpeg({
+            quality: 60,
+          })
+          .toFile(`./public/uploads/authors/${fileName}`)
+          .catch((err) => console.log(err));
+        res.status(200).json({
+          data: `http://localhost:5000/uploads/authors/${fileName}`,
+          message: "عکس با موفقیت آپلود شد.",
+        });
+      } else {
+        res.status(404).json({ message: "جهت آپلود باید عکسی انتخاب کنید" });
+      }
+    }
+  });
+};
 
 exports.createAuthor = async (req, res) => {
   const { name, description } = req.body.values;
@@ -120,6 +153,39 @@ exports.deleteUser = async (req, res) => {
 
 //BOOKS
 
+exports.uploadBookImage = (req, res) => {
+  const upload = multer({
+    limits: { fileSize: 4000000 },
+    fileFilter: fileFilter,
+  }).single("bookImage");
+
+  upload(req, res, async (err) => {
+    if (err) {
+      if (err.code === "LIMIT_FILE_SIZE") {
+        return res
+          .status(400)
+          .send("حجم عکس ارسالی نباید بیشتر از 4 مگابایت باشد");
+      }
+      res.status(400).send(err);
+    } else {
+      if (req.file) {
+        const fileName = `${shortId.generate()}_${req.file.originalname}`;
+        await sharp(req.file.buffer)
+          .jpeg({
+            quality: 60,
+          })
+          .toFile(`./public/uploads/books/${fileName}`)
+          .catch((err) => console.log(err));
+        res.status(200).json({
+          data: `http://localhost:5000/uploads/books/${fileName}`,
+          message: "عکس با موفقیت آپلود شد.",
+        });
+      } else {
+        res.status(404).json({ message: "جهت آپلود باید عکسی انتخاب کنید" });
+      }
+    }
+  });
+};
 
 exports.createBook = async (req, res) => {
   const { bookname, AuthoroftheBook, description, PublicationDate } = req.body.values;
