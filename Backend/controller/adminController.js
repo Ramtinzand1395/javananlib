@@ -35,7 +35,7 @@ exports.uploadImage = (req, res) => {
           .toFile(`./public/uploads/authors/${fileName}`)
           .catch((err) => console.log(err));
         res.status(200).json({
-          data: `http://localhost:5000/uploads/authors/${fileName}`,
+          data: `https://library-three-sigma.vercel.app/uploads/authors/${fileName}`,
           message: "عکس با موفقیت آپلود شد.",
         });
       } else {
